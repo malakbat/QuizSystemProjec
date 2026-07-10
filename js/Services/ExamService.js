@@ -18,11 +18,20 @@ export class ExamService {
     //for each examData(Exam) return new exam object with the same for each 
     // clone the data to new objects to avoid direct
     let allExamsClones = plainExams.map(examData => {
-      const exam = new Exam(examData.title);
+    const exam = new Exam(
 
+      examData.title,
+
+      examData.description,
+
+      examData.category,
+
+      examData.duration
+
+    );
       exam.id = examData.id;
       exam.createdAt = examData.createdAt;
-
+      exam.examCode = examData.examCode;
       exam.questions = examData.questions.map(questionData => {
         const question = new Question(
           questionData.text,

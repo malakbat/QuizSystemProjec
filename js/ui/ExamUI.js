@@ -1,5 +1,10 @@
+import { Result } from "../models/Result.js";
+import { ResultService } from "../services/ResultService.js";
+import { AuthService } from "../services/AuthService.js";
+
+
 export class ExamUI {
-    constructor(examService) {
+  constructor(examService) {
     //get Services for CRUD Opertions on exam
     this.examService = examService;
     // get references to ui elements
@@ -41,6 +46,30 @@ export class ExamUI {
       div.innerHTML = `
         <h5>${exam.title}</h5>
 
+        <p>
+
+        <b>Category:</b>
+
+        ${exam.category}
+
+        </p>
+
+        <p>
+
+        <b>Duration:</b>
+
+        ${exam.duration} minutes
+
+        </p>
+
+        <p>
+
+        <b>Code:</b>
+
+        ${exam.examCode}
+
+        </p>
+//****************************
         <p class="small-muted">
           Questions: ${exam.getQuestionCount()}
         </p>
@@ -87,6 +116,22 @@ export class ExamUI {
 
     this.examRunnerElement.innerHTML = `
       <h4>${exam.title}</h4>
+      <p>
+      ${exam.description}
+      </p>
+      <p>
+      <b>Category:</b>
+      ${exam.category}
+      </p>
+      <p>
+      <b>Duration:</b>
+      ${exam.duration} Minutes
+      </p>
+      <p>
+      <b>Exam Code:</b>
+      ${exam.examCode}
+      </p>
+      //**************
       <p class="text-muted">
         Answer all questions and submit the exam.
       </p>
@@ -109,7 +154,7 @@ export class ExamUI {
           </label>
         `).join("")}
       `;
-      
+
       this.examRunnerElement.appendChild(questionDiv);
     });
 
@@ -126,6 +171,11 @@ export class ExamUI {
 
   checkExam(exam) {
     let score = 0;
+    const authService = new AuthService();
+
+    const currentUser = authService.getCurrentUser();
+
+    const resultService = new ResultService();
 
     exam.questions.forEach((question, questionIndex) => {
       const selectedAnswer = document.querySelector(
@@ -153,5 +203,22 @@ export class ExamUI {
     `;
 
     this.examRunnerElement.appendChild(resultDiv);
+    if (currentUser) {
+
+      const result = new Result(
+
+        currentUser.id,
+
+        exam.id,
+
+        score,
+
+        exam.questions.length
+
+      );
+
+      resultService.saveResult(result);
+
+    }
   }
 }

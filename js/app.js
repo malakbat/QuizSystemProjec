@@ -9,6 +9,9 @@ const examUI = new ExamUI(examService);
 let currentExam = null;
 
 const examTitleInput = document.getElementById("examTitle");
+const examDescriptionInput = document.getElementById("examDescription");
+const examCategoryInput = document.getElementById("examCategory");
+const examDurationInput = document.getElementById("examDuration");
 const questionTextInput = document.getElementById("questionText");
 
 const answer1Input = document.getElementById("answer1");
@@ -57,7 +60,17 @@ addQuestionBtn.addEventListener("click", () => {
   }
 
   if (!currentExam) {
-    currentExam = new Exam(title);
+    currentExam = new Exam(
+
+      title,
+
+      examDescriptionInput.value,
+
+      examCategoryInput.value,
+
+      Number(examDurationInput.value)
+
+    );
   }
 
   const correctAnswerIndex = correctAnswerNumber - 1;
