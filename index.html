@@ -1,359 +1,177 @@
 <!DOCTYPE html>
-<html lang="he" dir="rtl">
+<html lang="en">
+
 <head>
   <meta charset="UTF-8">
-  <title>מערכת מבחנים דיגיטלית מוגמרת</title>
+
+  <title>Exam Builder</title>
+
+  <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom CSS -->
   <link rel="stylesheet" href="css/style.css">
 </head>
-<body class="bg-light">
 
-  <nav class="navbar navbar-dark bg-dark mb-4">
-    <div class="container-fluid">
-      <span class="navbar-brand mb-0 h1" id="navBrandTitle">מערכת מבחנים דיגיטלית</span>
-      <div class="d-flex">
-        <span class="navbar-text text-white me-3 d-none" id="userInfoDisplay"></span>
-        <button id="globalLogoutBtn" class="btn btn-outline-danger btn-sm d-none">התנתק</button>
-      </div>
-    </div>
-  </nav>
+<body>
+  <!-- Home Page -->
+  <div id="homePage">
 
-  <div class="container py-2">
-    <div id="globalAlert" class="alert d-none" role="alert"></div>
+    <div class="container text-center mt-5">
 
-    <div id="screen-home" class="view-screen text-center">
-      <div class="card p-5 mx-auto shadow-sm" style="max-width: 600px;">
-        <h1 class="mb-3">מערכת מבחנים דיגיטלית</h1>
-        <h4 class="text-primary">סטודנטית: Malak Batheesh</h4>
-        <p class="text-muted">תעודת זהות: 123456789</p>
-        <hr class="my-4">
-        <h5>ניווט במערכת:</h5>
-        <div class="d-grid gap-2 col-8 mx-auto mt-3">
-          <button onclick="switchScreen('screen-login')" class="btn btn-primary btn-lg">דף התחברות</button>
-          <button onclick="switchScreen('screen-register')" class="btn btn-outline-secondary">דף הרשמה למשתמש חדש</button>
-        </div>
-        <div class="mt-4">
-          <a href="https://github.com/malakbat/QuizSystemProjec" target="_blank" class="text-decoration-none">🔗 קישור לפרויקט ב-GitHub</a>
-        </div>
-      </div>
+      <h1>Exam System</h1>
+
+      <h3>Malak Batheesh</h3>
+
+      <p>214659302</p>
+
+      <button id="goRegisterBtn" class="btn btn-primary m-2">
+        Register
+      </button>
+
+      <button id="goLoginBtn" class="btn btn-success m-2">
+        Login
+      </button>
+
     </div>
 
-    <div id="screen-register" class="view-screen d-none">
-      <div class="card p-4 mx-auto shadow-sm" style="max-width: 500px;">
-        <h2 class="text-center mb-4">הרשמה למעכת</h2>
-        <form id="registerForm">
-          <div class="mb-3">
-            <label class="form-label">שם משתמש:</label>
-            <input type="text" id="regUsername" class="form-control" required placeholder="הקלידו שם משתמש">
-          </div>
-          <div class="mb-3">
-            <label class="form-label">סיסמה:</label>
-            <input type="password" id="regPassword" class="form-control" required placeholder="הקלידו סיסמה">
-          </div>
-          <div class="mb-3">
-            <label class="form-label">סוג משתמש:</label>
-            <select id="regRole" class="form-select" required>
-              <option value="student">סטודנט (Student)</option>
-              <option value="teacher">מורה / מרצה (Teacher)</option>
-            </select>
-          </div>
-          <button type="submit" class="btn btn-success w-100 mt-2">הרשם עכשיו</button>
-        </form>
-        <hr class="my-4">
-        <div class="text-center">
-          <p class="mb-0">כבר יש לך חשבון? <button onclick="switchScreen('screen-login')" class="btn btn-link p-0 text-decoration-none">להתחברות כאן</button></p>
-          <button onclick="switchScreen('screen-home')" class="btn btn-link btn-sm mt-2 text-secondary">חזרה לדף הבית</button>
-        </div>
-      </div>
-    </div>
+  </div>
+  <div class="container py-4" id="teacherPage" style="display:none;">
+    <h1 class="text-center mb-4">
+      Malak Batheesh - 214659302
+    </h1>
 
-    <div id="screen-login" class="view-screen d-none">
-      <div class="card p-4 mx-auto shadow-sm" style="max-width: 500px;">
-        <h2 class="text-center mb-4">התחברות למערכת</h2>
-        <form id="loginForm">
-          <div class="mb-3">
-            <label class="form-label">שם משתמש:</label>
-            <input type="text" id="loginUsername" class="form-control" required placeholder="הקלידו שם משתמש">
-          </div>
-          <div class="mb-3">
-            <label class="form-label">סיסמה:</label>
-            <input type="password" id="loginPassword" class="form-control" required placeholder="הקלידו סיסמה">
-          </div>
-          <button type="submit" class="btn btn-primary w-100 mt-2">התחבר</button>
-        </form>
-        <hr class="my-4">
-        <div class="text-center">
-          <p class="mb-0">אין לך חשבון עדיין? <button onclick="switchScreen('screen-register')" class="btn btn-link p-0 text-decoration-none">להרשמה כאן</button></p>
-          <button onclick="switchScreen('screen-home')" class="btn btn-link btn-sm mt-2 text-secondary">חזרה לדף הבית</button>
-        </div>
-      </div>
-    </div>
+    <div class="row">
 
-    <div id="screen-teacher" class="view-screen d-none">
-      <div class="row">
-        <div class="col-md-5">
-          <div class="card mb-4 shadow-sm">
-            <div class="card-header bg-primary text-white">יצירת מבחן חדש</div>
-            <div class="card-body">
-              <div class="mb-3">
-                <label class="form-label">שם המבחן</label>
-                <input id="examTitle" type="text" class="form-control" placeholder="דוגמה: יסודות ה-JavaScript">
-              </div>
-              <hr>
-              <h5>הוספת שאלה אמריקאית</h5>
-              <div class="mb-3">
-                <label class="form-label">טקסט השאלה</label>
-                <input id="questionText" type="text" class="form-control">
-              </div>
-              <div class="mb-3"><label class="form-label">תשובה 1</label><input id="answer1" type="text" class="form-control"></div>
-              <div class="mb-3"><label class="form-label">תשובה 2</label><input id="answer2" type="text" class="form-control"></div>
-              <div class="mb-3"><label class="form-label">תשובה 3</label><input id="answer3" type="text" class="form-control"></div>
-              <div class="mb-3"><label class="form-label">תשובה 4</label><input id="answer4" type="text" class="form-control"></div>
-              <div class="mb-3">
-                <label class="form-label">מספר התשובה הנכונה (1-4)</label>
-                <input id="correctAnswer" type="number" class="form-control" min="1" max="4">
-              </div>
-              <button id="addQuestionBtn" class="btn btn-success w-100 mb-2">הוסף שאלה למבחן</button>
-              <button id="saveExamBtn" class="btn btn-primary w-100">שמור מבחן ב-Storage</button>
-              <div id="builderMessage" class="mt-3"></div>
+      <!-- LEFT SIDE : CREATE EXAM -->
+      <div class="col-md-5">
+
+        <div class="card mb-4">
+
+          <div class="card-header bg-primary text-white">
+            Create Exam
+          </div>
+
+          <div class="card-body">
+
+            <div class="mb-3">
+              <label class="form-label">
+                Exam Title
+              </label>
+
+              <input id="examTitle" type="text" class="form-control" placeholder="Example: JavaScript Basics">
             </div>
-          </div>
-        </div>
-        <div class="col-md-7">
-          <div class="card mb-4 shadow-sm">
-            <div class="card-header bg-secondary text-white">מבחנים שנוצרו במערכת</div>
-            <div class="card-body"><div id="examList"></div></div>
-          </div>
-          <div class="card shadow-sm">
-            <div class="card-header bg-warning">תצוגה מקדימה והרצת מבחן</div>
-            <div class="card-body"><div id="examRunner"><p class="text-muted">בחר מבחן מהרשימה.</p></div></div>
-          </div>
-        </div>
-      </div>
-    </div>
 
-    <div id="screen-student" class="view-screen d-none">
-      <div class="row">
-        <div class="col-md-4">
-          <div class="card mb-4 shadow-sm">
-            <div class="card-header bg-info text-white">ההישגים שלי</div>
-            <div class="card-body text-center">
-              <h5>ממוצע ציונים:</h5>
-              <h2 id="studentAverage" class="text-primary">0%</h2>
-              <hr>
-              <h6>היסטוריית מבחנים:</h6>
-              <div id="studentHistoryList" class="text-start mt-2"></div>
+            <hr>
+
+            <h5>Add Question</h5>
+
+            <div class="mb-3">
+              <label class="form-label">
+                Question Text
+              </label>
+
+              <input id="questionText" type="text" class="form-control" placeholder="Example: What is const?">
             </div>
-          </div>
-        </div>
-        <div class="col-md-8">
-          <div class="card mb-4 shadow-sm">
-            <div class="card-header bg-secondary text-white d-flex justify-content-between align-items-center">
-              <span>מבחנים זמינים לביצוע</span>
-              <input type="text" id="searchExamInput" class="form-control form-control-sm w-50" placeholder="🔍 חיפוש מבחן...">
+
+            <div class="mb-3">
+              <label class="form-label">
+                Answer 1
+              </label>
+
+              <input id="answer1" type="text" class="form-control">
             </div>
-            <div class="card-body"><div id="studentExamList"></div></div>
+
+            <div class="mb-3">
+              <label class="form-label">
+                Answer 2
+              </label>
+
+              <input id="answer2" type="text" class="form-control">
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">
+                Answer 3
+              </label>
+
+              <input id="answer3" type="text" class="form-control">
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">
+                Answer 4
+              </label>
+
+              <input id="answer4" type="text" class="form-control">
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">
+                Correct Answer Number
+              </label>
+
+              <input id="correctAnswer" type="number" class="form-control" min="1" max="4" placeholder="1-4">
+            </div>
+
+            <button id="addQuestionBtn" class="btn btn-success w-100 mb-2">
+              Add Question
+            </button>
+
+            <button id="saveExamBtn" class="btn btn-primary w-100">
+              Save Exam
+            </button>
+
+            <div id="builderMessage" class="mt-3"></div>
+
           </div>
-          <div class="card shadow-sm">
-            <div class="card-header bg-warning">ביצוע מבחן פעיל</div>
-            <div class="card-body"><div id="studentExamRunner"><p class="text-muted">בחרו מבחן כדי להתחיל.</p></div></div>
-          </div>
+
         </div>
+
       </div>
+
+      <!-- RIGHT SIDE : SAVED EXAMS -->
+      <div class="col-md-7">
+
+        <div class="card mb-4">
+
+          <div class="card-header bg-dark text-white">
+            Saved Exams
+          </div>
+
+          <div class="card-body">
+            <div id="examList"></div>
+          </div>
+
+        </div>
+
+        <div class="card">
+
+          <div class="card-header bg-warning">
+            Run Exam
+          </div>
+
+          <div class="card-body">
+
+            <div id="examRunner">
+              <p class="text-muted">
+                Choose an exam to run.
+              </p>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
     </div>
 
   </div>
 
-  <script type="module">
-    import { AuthService } from "./js/Services/AuthService.js";
-    import { ExamService } from "./js/services/ExamService.js";
-    import { ExamUI } from "./js/ui/ExamUI.js";
+  <!-- Main JavaScript -->
+  <script type="module" src="js/app.js"></script>
 
-    const authService = new AuthService();
-    const examService = new ExamService();
-    const examUI = new ExamUI(examService);
-
-    // פונקציית הניווט הגלובלית בין המסכים
-    window.switchScreen = function(screenId) {
-      document.querySelectorAll('.view-screen').forEach(screen => screen.classList.add('d-none'));
-      document.getElementById(screenId).classList.remove('d-none');
-      hideAlert();
-    };
-
-    function showAlert(msg, type="success") {
-      const alert = document.getElementById("globalAlert");
-      alert.className = `alert alert-${type}`;
-      alert.textContent = msg;
-      alert.classList.remove("d-none");
-    }
-    function hideAlert() { document.getElementById("globalAlert").classList.add("d-none"); }
-
-    // עדכון מצב סרגל הניווט והרשאות
-    function updateNavbar() {
-      const user = authService.getCurrentUser();
-      const userInfo = document.getElementById("userInfoDisplay");
-      const logoutBtn = document.getElementById("globalLogoutBtn");
-      
-      if (user) {
-        userInfo.textContent = `שלום, ${user.username} (${user.role === 'teacher' ? 'מורה' : 'סטודנט'})`;
-        userInfo.classList.remove("d-none");
-        logoutBtn.classList.remove("d-none");
-      } else {
-        userInfo.classList.add("d-none");
-        logoutBtn.classList.add("d-none");
-      }
-    }
-
-    // התנתקות
-    document.getElementById("globalLogoutBtn").addEventListener("click", () => {
-      authService.logout();
-      updateNavbar();
-      switchScreen("screen-home");
-    });
-
-    // --- לוגיקת טופס הרשמה ---
-    document.getElementById("registerForm").addEventListener("submit", (e) => {
-      e.preventDefault();
-      const u = document.getElementById("regUsername").value.trim();
-      const p = document.getElementById("regPassword").value;
-      const r = document.getElementById("regRole").value;
-      const res = authService.register(u, p, r);
-      if (res.success) {
-        showAlert(res.message + " מעביר להתחברות...", "success");
-        setTimeout(() => { switchScreen("screen-login"); }, 1500);
-      } else {
-        showAlert(res.message, "danger");
-      }
-    });
-
-    // --- לוגיקת טופס התחברות ---
-    document.getElementById("loginForm").addEventListener("submit", (e) => {
-      e.preventDefault();
-      const u = document.getElementById("loginUsername").value.trim();
-      const p = document.getElementById("loginPassword").value;
-      const res = authService.login(u, p);
-      if (res.success) {
-        updateNavbar();
-        if (res.user.role === "teacher") {
-          switchScreen("screen-teacher");
-          examUI.examListElement = document.getElementById("examList");
-          examUI.examRunnerElement = document.getElementById("examRunner");
-          examUI.renderExamList();
-        } else {
-          switchScreen("screen-student");
-          renderStudentDashboard();
-        }
-      } else {
-        showAlert(res.message, "danger");
-      }
-    });
-
-    // --- אזור הסטודנט המאוחד ---
-    function renderStudentDashboard() {
-      const user = authService.getCurrentUser();
-      const users = authService.getAllUsers();
-      const fullUser = users.find(u => u.username === user.username);
-      
-      // היסטוריה וממוצע
-      const historyList = document.getElementById("studentHistoryList");
-      const averageText = document.getElementById("studentAverage");
-      
-      if (!fullUser || !fullUser.history || fullUser.history.length === 0) {
-        historyList.innerHTML = `<p class="text-muted small text-center">טרם ביצעת מבחנים.</p>`;
-        averageText.textContent = "0%";
-      } else {
-        historyList.innerHTML = "";
-        let total = 0;
-        fullUser.history.forEach(h => {
-          total += h.percent;
-          historyList.innerHTML += `<div class="border-bottom py-1 small d-flex justify-content-between">
-            <span><strong>${h.examTitle}</strong></span><span>ציון: ${h.score}/${h.total} (${h.percent}%)</span>
-          </div>`;
-        });
-        averageText.textContent = `${Math.round(total / fullUser.history.length)}%`;
-      }
-
-      // רשימת מבחנים לסטודנט
-      const exams = examService.getAllExams();
-      const studentExamList = document.getElementById("studentExamList");
-      studentExamList.innerHTML = "";
-      if(exams.length === 0) {
-        studentExamList.innerHTML = `<p class="text-muted">אין מבחנים זמינים כרגע.</p>`;
-        return;
-      }
-      exams.forEach(exam => {
-        studentExamList.innerHTML += `<div class="exam-card border p-3 mb-2 bg-white rounded">
-          <h5>${exam.title}</h5>
-          <button class="btn btn-sm btn-success run-student-exam-btn" data-id="${exam.id}">התחל מבחן</button>
-        </div>`;
-      });
-    }
-
-    // הפעלת מבחן לסטודנט ובדיקתו
-    document.getElementById("studentExamList").addEventListener("click", (e) => {
-      if (e.target.classList.contains("run-student-exam-btn")) {
-        const id = e.target.dataset.id;
-        const exam = examService.getExamById(id);
-        const runner = document.getElementById("studentExamRunner");
-        
-        runner.innerHTML = `<h4>${exam.title}</h4><hr>`;
-        exam.questions.forEach((q, qIdx) => {
-          runner.innerHTML += `<div class="question-box border p-3 mb-2 bg-white">
-            <h6>${qIdx + 1}. ${q.text}</h6>
-            ${q.answers.map((ans, aIdx) => `<label class="d-block"><input type="radio" name="sq-${qIdx}" value="${aIdx}"> ${ans}</label>`).join("")}
-          </div>`;
-        });
-        runner.innerHTML += `<button id="submitStudentExamBtn" class="btn btn-primary mt-2">שלח תשובות במבחן</button>`;
-
-        document.getElementById("submitStudentExamBtn").addEventListener("click", () => {
-          let score = 0;
-          exam.questions.forEach((q, qIdx) => {
-            const sel = document.querySelector(`input[name="sq-${qIdx}"]:checked`);
-            if (sel && Number(sel.value) === q.correctAnswerIndex) score++;
-          });
-          const pct = Math.round((score / exam.questions.length) * 100);
-          
-          // שמירה להיסטוריה
-          const user = authService.getCurrentUser();
-          const users = authService.getAllUsers();
-          const uIdx = users.findIndex(u => u.username === user.username);
-          if (uIdx !== -1) {
-            if (!users[uIdx].history) users[uIdx].history = [];
-            users[uIdx].history.push({ examTitle: exam.title, score, total: exam.questions.length, percent: pct });
-            localStorage.setItem(authService.usersKey, JSON.stringify(users));
-          }
-          
-          runner.innerHTML = `<div class="alert alert-success"><h5>המבחן הסתיים!</h5><p>הציון שלך: ${score} / ${exam.questions.length} (${pct}%)</p></div>`;
-          renderStudentDashboard();
-        });
-      }
-    });
-
-    // חיפוש מבחנים לסטודנט
-    document.getElementById("searchExamInput").addEventListener("input", (e) => {
-      const term = e.target.value.toLowerCase().trim();
-      document.querySelectorAll("#studentExamList .exam-card").forEach(card => {
-        card.style.display = card.querySelector("h5").textContent.toLowerCase().includes(term) ? "block" : "none";
-      });
-    });
-
-    // חיבור לוגיקת המורה המקורית מ-app.js
-    import "./js/app.js";
-
-    // בדיקה ראשונית של סשן קיים
-    updateNavbar();
-    const startUser = authService.getCurrentUser();
-    if (startUser) {
-      if (startUser.role === "teacher") {
-        switchScreen("screen-teacher");
-        examUI.examListElement = document.getElementById("examList");
-        examUI.examRunnerElement = document.getElementById("examRunner");
-        examUI.renderExamList();
-      } else {
-        switchScreen("screen-student");
-        renderStudentDashboard();
-      }
-    }
-  </script>
 </body>
+
 </html>
