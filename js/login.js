@@ -1,38 +1,37 @@
-import { UserService } from "./Services/UserService.js";
 import { AuthService } from "./Services/AuthService.js";
 
-const userService = new UserService();
 const authService = new AuthService();
 
-const loginBtn = document.getElementById("loginBtn");
+const loginForm = document.getElementById("loginForm");
+const alertMsg = document.getElementById("alertMsg");
 
-loginBtn.addEventListener("click", () => {
+if (loginForm) {
+  loginForm.addEventListener("submit", (e) => {
+    e.preventDefault();
 
-    const username = document.getElementById("username").value.trim();
+    const username = document.getElementById("loginUsername").value.trim();
+    const password = document.getElementById("loginPassword").value;
 
-    const password = document.getElementById("password").value.trim();
+    // קריאה לשירות האימות
+    const result = authService.login(username, password);
 
-    const user = userService.getUser(username, password);
+    alertMsg.classList.remove("d-none", "alert-success", "alert-danger");
 
-    if (!user) {
-
-        alert("Wrong username or password");
-
-        return;
-
+    if (result.success) {
+      alertMsg.classList.add("alert-success");
+      alertMsg.textContent = "התחברות הצליחה! מנתב לעמוד המתאים...";
+      
+      // בדיקת תפקיד והפניה לעמוד המתאים לפי דרישות המרצה
+      setTimeout(() => {
+        if (result.user.role === "teacher") {
+          window.location.href = "teacher.html";
+        } else {
+          window.location.href = "student.html";
+        }
+      }, 1500);
+    } else {
+      alertMsg.classList.add("alert-danger");
+      alertMsg.textContent = result.message;
     }
-
-    authService.login(user);
-
-    if (user.role === "teacher") {
-
-window.location.href="teacherDashboard.html";
-    }
-
-    else {
-
-        window.location.href = "student.html";
-
-    }
-
-});
+  });
+}
