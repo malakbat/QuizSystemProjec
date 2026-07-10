@@ -1,5 +1,4 @@
 import { AuthService } from "./Services/AuthService.js";
-
 const authService = new AuthService();
 
 const loginForm = document.getElementById("loginForm");
