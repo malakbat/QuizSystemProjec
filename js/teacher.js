@@ -1,21 +1,22 @@
 import { AuthService } from "./Services/AuthService.js";
 
-const auth = new AuthService();
+const authService = new AuthService();
+const currentUser = authService.getCurrentUser();
 
-const currentUser = auth.getCurrentUser();
-
-if (!currentUser) {
-
-    location.href = "login.html";
-
+// הגנת דף - אם המשתמש לא מורה, נזרוק אותו לדף הבית
+if (!currentUser || currentUser.role !== "teacher") {
+  alert("גישה חסומה! דף זה מיועד למורים בלבד.");
+  window.location.href = "index.html";
 }
 
-document
-.getElementById("logoutBtn")
-.addEventListener("click", () => {
+// הפעלת כפתור ההתנתקות
+const logoutBtn = document.getElementById("logoutBtn");
+if (logoutBtn) {
+  logoutBtn.addEventListener("click", () => {
+    authService.logout();
+    window.location.href = "index.html";
+  });
+}
 
-    auth.logout();
-
-    location.href = "index.html";
-
-});
+// טעינת הלוגיקה המקורית של ה-App שבניתם בכיתה לניהול המבחנים
+import "./app.js";
