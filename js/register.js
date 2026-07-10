@@ -1,57 +1,36 @@
-import { User } from "./models/User.js";
+import { AuthService } from "./Services/AuthService.js";
 
-import { UserService } from "./Services/UserService.js";
+const authService = new AuthService();
 
-const service = new UserService();
+const registerForm = document.getElementById("registerForm");
+const alertMsg = document.getElementById("alertMsg");
 
-const registerBtn = document.getElementById("registerBtn");
+if (registerForm) {
+  registerForm.addEventListener("submit", (e) => {
+    e.preventDefault(); // מניעת רענון הדף
 
-registerBtn.addEventListener("click", () => {
+    const username = document.getElementById("regUsername").value.trim();
+    const password = document.getElementById("regPassword").value;
+    const role = document.getElementById("regRole").value;
 
-    const fullName = document.getElementById("fullName").value;
+    // קריאה לשירות ההרשמה שכתבנו
+    const result = authService.register(username, password, role);
 
-    const idNumber = document.getElementById("idNumber").value;
-
-    const username = document.getElementById("username").value;
-
-    const password = document.getElementById("password").value;
-
-    const role = document.getElementById("role").value;
-
-    if (
-
-        fullName == "" ||
-
-        username == "" ||
-
-        password == ""
-
-    ){
-
-        alert("Fill all fields");
-
-        return;
-
+    // הצגת הודעה מתאימה למשתמש
+    alertMsg.classList.remove("d-none", "alert-success", "alert-danger");
+    
+    if (result.success) {
+      alertMsg.classList.add("alert-success");
+      alertMsg.textContent = result.message + " מעביר לדף ההתחברות...";
+      registerForm.reset();
+      
+      // מעבר אוטומטי לדף הלוגין לאחר 2 שניות
+      setTimeout(() => {
+        window.location.href = "login.html";
+      }, 2000);
+    } else {
+      alertMsg.classList.add("alert-danger");
+      alertMsg.textContent = result.message;
     }
-
-    const user = new User(
-
-        fullName,
-
-        idNumber,
-
-        username,
-
-        password,
-
-        role
-
-    );
-
-    service.saveUser(user);
-
-    alert("Registered Successfully");
-
-    location.href = "login.html";
-
-});
+  });
+}
