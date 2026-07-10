@@ -1,165 +1,59 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="he" dir="rtl">
 <head>
   <meta charset="UTF-8">
-  <title>Exam Builder</title>
-  <title>Exam App</title>
-
-  <!-- Bootstrap CSS -->
+  <title>מערכת מבחנים - דף בית</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-
-  <!-- Custom CSS -->
   <link rel="stylesheet" href="css/style.css">
 </head>
+<body class="bg-light">
 
-<body>
-
-  <div class="container py-4">
-
-    <h1 class="text-center mb-4">Malak Batheesh - 214659302</h1>
-
-    <div class="row">
-
-      <!-- LEFT SIDE: CREATE EXAM -->
-      <div class="col-md-5">
-
-        <div class="card mb-4">
-          <div class="card-header bg-primary text-white">
-            Create Exam
-          </div>
-
-          <div class="card-body">
-
-            <div class="mb-3">
-              <label class="form-label">Exam Title</label>
-              <!-- ================= NEW ================= -->
-
-              <div class="mb-3">
-
-                <label class="form-label">
-
-                  Description
-
-                </label>
-
-                <input id="examDescription" type="text" class="form-control">
-
-              </div>
-
-              <div class="mb-3">
-
-                <label class="form-label">
-
-                  Category
-
-                </label>
-
-                <input id="examCategory" type="text" class="form-control">
-
-              </div>
-
-              <div class="mb-3">
-
-                <label class="form-label">
-
-                  Duration (minutes)
-
-                </label>
-
-                <input id="examDuration" type="number" value="60" class="form-control">
-
-              </div>
-
-              <!-- ======================================= -->
-
-
-              <input id="examTitle" type="text" class="form-control" placeholder="Example: JavaScript Basics">
-            </div>
-
-            <hr>
-
-            <h5>Add Question</h5>
-
-            <div class="mb-3">
-              <label class="form-label">Question Text</label>
-              <input id="questionText" type="text" class="form-control" placeholder="Example: What is const?">
-            </div>
-
-            <div class="mb-3">
-              <label class="form-label">Answer 1</label>
-              <input id="answer1" type="text" class="form-control">
-            </div>
-
-            <div class="mb-3">
-              <label class="form-label">Answer 2</label>
-              <input id="answer2" type="text" class="form-control">
-            </div>
-
-            <div class="mb-3">
-              <label class="form-label">Answer 3</label>
-              <input id="answer3" type="text" class="form-control">
-            </div>
-
-            <div class="mb-3">
-              <label class="form-label">Answer 4</label>
-              <input id="answer4" type="text" class="form-control">
-            </div>
-
-            <div class="mb-3">
-              <label class="form-label">Correct Answer Number</label>
-              <input id="correctAnswer" type="number" class="form-control" min="1" max="4" placeholder="1-4">
-            </div>
-
-            <button id="addQuestionBtn" class="btn btn-success w-100 mb-2">
-              Add Question
-            </button>
-
-            <button id="saveExamBtn" class="btn btn-primary w-100">
-              Save Exam
-            </button>
-
-            <div id="builderMessage" class="mt-3"></div>
-
-          </div>
+  <div class="container py-5 text-center">
+    <div class="card p-5 mx-auto shadow-sm" style="max-width: 600px;">
+      <h1 class="mb-3">מערכת מבחנים דיגיטלית</h1>
+      <h4 class="text-primary">סטודנטית: Malak Batheesh</h4>
+      <p class="text-muted">תעודת זהות: 123456789</p>
+      
+      <hr class="my-4">
+      
+      <div id="authStatusArea">
+        <h5>ניווט במערכת:</h5>
+        <div class="d-grid gap-2 col-8 mx-auto mt-3">
+          <a href="login.html" class="btn btn-primary btn-lg">דף התחברות</a>
+          <a href="register.html" class="btn btn-outline-secondary">דף הרשמה למשתמש חדש</a>
         </div>
-
       </div>
 
-      <!-- RIGHT SIDE: SAVED EXAMS -->
-      <div class="col-md-7">
-
-        <div class="card mb-4">
-          <div class="card-header bg-dark text-white">
-            Saved Exams
-          </div>
-
-          <div class="card-body">
-            <div id="examList"></div>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card-header bg-warning">
-            Run Exam
-          </div>
-
-          <div class="card-body">
-            <div id="examRunner">
-              <p class="text-muted">Choose an exam to run.</p>
-            </div>
-          </div>
-        </div>
-
+      <div class="mt-4">
+        <a href="https://github.com/malakbat/QuizSystemProjec" target="_blank" class="text-decoration-none">🔗 קישור לפרויקט ב-GitHub</a>
       </div>
-
     </div>
-
   </div>
 
-  <!-- Main JavaScript file -->
-  <script type="module" src="js/app.js"></script>
+  <script type="module">
+    import { AuthService } from "./js/Services/AuthService.js";
+    const authService = new AuthService();
+    const currentUser = authService.getCurrentUser();
+    const authStatusArea = document.getElementById("authStatusArea");
 
+    // אם יש משתמש מחובר, נציג לו כפתור כניסה לאזור האישי וכפתור התנתקות
+    if (currentUser) {
+      const dashboardUrl = currentUser.role === "teacher" ? "teacher.html" : "student.html";
+      const roleName = currentUser.role === "teacher" ? "מורה" : "סטודנט";
+      
+      authStatusArea.innerHTML = `
+        <div class="alert alert-info">מחובר כעת: <strong>${currentUser.username}</strong> (${roleName})</div>
+        <div class="d-grid gap-2 col-8 mx-auto mt-3">
+          <a href="${dashboardUrl}" class="btn btn-success btn-lg">כניסה לאזור האישי שלך</a>
+          <button id="logoutBtn" class="btn btn-danger">התנתק מהמערכת</button>
+        </div>
+      `;
+
+      document.getElementById("logoutBtn").addEventListener("click", () => {
+        authService.logout();
+        window.location.reload(); // רענון הדף לעדכון הסטטוס
+      });
+    }
+  </script>
 </body>
-
 </html>
