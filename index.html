@@ -1,20 +1,18 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="he" dir="rtl">
 
 <head>
   <meta charset="UTF-8">
   <title>Exam Builder App</title>
 
-  <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
-  <!-- Custom CSS -->
   <link rel="stylesheet" href="css/style.css">
 </head>
 
-<body>
+<body class="bg-light">
 
-  <header class="text-center mb-5">
+  <header class="text-center mb-4 pt-4">
     <h1 class="fw-bold">Karmen & Malak</h1>
     <p class="text-muted">פרויקט גמר - סדנת תכנות בסביבת האינטרנט</p>
     <div class="d-flex justify-content-center gap-3 mt-3">
@@ -22,198 +20,284 @@
         <p class="mb-0"><strong>Karmen Mtanes</strong></p>
         <p class="small">תעודת זהות : 213349343</p>
       </div>
-      <div class="vr"></div> <!-- Small separator line -->
+      <div class="vr"></div> 
       <div>
         <p class="mb-0"><strong>Malak Batheesh</strong></p>
         <p class="small">תעודת זהות : 214659302</p>
       </div>
     </div>
-    <a href="https://github.com/" target="_blank" class="btn btn-dark mt-3">
+    <a href="https://github.com/malakbat/QuizSystemProjec" target="_blank" class="btn btn-dark mt-3">
       הפרופיל שלנו ב-GitHub
     </a>
   </header>
 
-  <!-- Top navigation menu (hidden by default) -->
-  <nav id="main-nav" class="d-none mb-4 d-flex justify-content-between align-items-center bg-light p-3 rounded">
-    <span id="welcomeMessage" class="fw-bold fs-5"></span>
-    <div>
-      <button id="darkModeBtn" class="btn btn-outline-dark me-2">מצב כהה / בהיר</button>
-      <button id="logoutBtn" class="btn btn-outline-danger">התנתק</button>
-    </div>
-  </nav>
-
-  <!-- Login area -->
-  <div id="login-view" class="card mx-auto" style="max-width: 400px;">
-    <div class="card-body">
-      <h3 class="card-title text-center mb-4">התחברות</h3>
-      <input type="text" id="loginUsername" class="form-control mb-3" placeholder="שם משתמש">
-      <input type="password" id="loginPassword" class="form-control mb-3" placeholder="סיסמה">
-      <button id="loginBtn" class="btn btn-primary w-100 mb-2">התחבר</button>
-      <div class="text-center">
-        <button id="goToRegisterBtn" class="btn btn-link text-decoration-none">אין לך חשבון? הירשם כאן</button>
+  <div class="container" style="max-width: 900px;">
+    <nav id="main-nav" class="d-none mb-4 d-flex justify-content-between align-items-center bg-white p-3 rounded shadow-sm">
+      <span id="welcomeMessage" class="fw-bold fs-5 text-primary"></span>
+      <div>
+        <button id="logoutBtn" class="btn btn-sm btn-outline-danger">התנתק</button>
       </div>
-    </div>
-  </div>
+    </nav>
 
-  <!-- Registration area -->
-  <div id="register-view" class="card mx-auto d-none" style="max-width: 400px;">
-    <div class="card-body">
-      <h3 class="card-title text-center mb-4">הרשמה חדשה</h3>
-      <input type="text" id="regUsername" class="form-control mb-3" placeholder="שם משתמש">
-      <input type="password" id="regPassword" class="form-control mb-3" placeholder="סיסמה">
-      <select id="regRole" class="form-select mb-3">
-        <option value="student">סטודנט</option>
-        <option value="teacher">מרצה</option>
-      </select>
-      <button id="registerBtn" class="btn btn-success w-100 mb-2">הירשם</button>
-      <div class="text-center">
-        <button id="goToLoginBtn" class="btn btn-link text-decoration-none">חזור למסך התחברות</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Teacher view -->
-  <div id="teacher-view" class="d-none">
-
-    <div class="row">
-
-      <!-- LEFT SIDE: CREATE EXAM -->
-      <div class="col-md-5">
-
-        <div class="card mb-4">
-          <div class="card-header bg-primary text-white">
-            Create Exam
-          </div>
-
-          <div class="card-body">
-
-            <div class="mb-3">
-              <label class="form-label">Exam Title</label>
-              <input id="examTitle" type="text" class="form-control" placeholder="Example: JavaScript Basics">
-            </div>
-
-            <hr>
-
-            <h5>Add Question</h5>
-
-            <div class="mb-3">
-              <label class="form-label">Question Text</label>
-              <input id="questionText" type="text" class="form-control" placeholder="Example: What is const?">
-            </div>
-
-            <div class="mb-3">
-              <label class="form-label">Answer 1</label>
-              <input id="answer1" type="text" class="form-control">
-            </div>
-
-            <div class="mb-3">
-              <label class="form-label">Answer 2</label>
-              <input id="answer2" type="text" class="form-control">
-            </div>
-
-            <div class="mb-3">
-              <label class="form-label">Answer 3</label>
-              <input id="answer3" type="text" class="form-control">
-            </div>
-
-            <div class="mb-3">
-              <label class="form-label">Answer 4</label>
-              <input id="answer4" type="text" class="form-control">
-            </div>
-
-            <div class="mb-3">
-              <label class="form-label">Correct Answer Number</label>
-              <input id="correctAnswer" type="number" class="form-control" min="1" max="4" placeholder="1-4">
-            </div>
-
-            <button id="addQuestionBtn" class="btn btn-success w-100 mb-2">
-              Add Question
-            </button>
-
-            <button id="saveExamBtn" class="btn btn-primary w-100">
-              Save Exam
-            </button>
-
-            <div id="builderMessage" class="mt-3"></div>
-
-          </div>
-        </div>
-
-      </div>
-
-      <!-- RIGHT SIDE: SAVED EXAMS -->
-      <div class="col-md-7">
-
-        <div class="card mb-4">
-          <div class="card-header bg-dark text-white">
-            Saved Exams
-          </div>
-
-          <div class="card-body">
-            <div id="examList"></div>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card-header bg-warning">
-            Run Exam
-          </div>
-
-          <div class="card-body">
-            <div id="examRunner">
-              <p class="text-muted">Choose an exam to run.</p>
-            </div>
-          </div>
-        </div>
-
-      </div>
-
-    </div>
-
-  </div> <!-- End of teacher view -->
-
-
-  <!-- Student page -->
-  <div id="student-view" class="d-none">
-    <h2>אזור סטודנט</h2>
-
-    <h3>מבחנים זמינים</h3>
-    <div id="available-exams-list" class="mt-3">
-    </div>
-    <!-- Active exam timer and details area (shown only during an exam) -->
-    <div id="active-exam-panel" class="card mb-4 border-danger d-none">
-      <div class="card-header bg-danger text-white d-flex justify-content-between">
-        <span>מבחן פעיל: <span id="active-exam-id"></span></span>
-        <span id="timer" class="fw-bold">זמן שנותר: --:--</span>
-      </div>
-    </div>
-
-    <!-- Grades history area -->
-    <div class="card mb-4">
-      <div class="card-header bg-info text-white">היסטוריית הציונים שלי</div>
-      <div class="card-body" id="historyArea"></div>
-    </div>
-
-    <!-- Exam search area -->
-    <div class="card mb-4">
+    <div id="login-view" class="card mx-auto shadow-sm" style="max-width: 400px;">
       <div class="card-body">
-        <h5 class="card-title">חיפוש מבחן</h5>
-        <div class="d-flex gap-2">
-          <input type="text" id="searchCodeInput" class="form-control" placeholder="הזן קוד מבחן (לדוגמה: 1234)">
-          <button id="searchExamBtn" class="btn btn-primary">חפש והתחל</button>
+        <h3 class="card-title text-center mb-4 fw-bold">התחברות</h3>
+        <input type="text" id="loginUsername" class="form-control mb-3" placeholder="שם משתמש">
+        <input type="password" id="loginPassword" class="form-control mb-3" placeholder="סיסמה">
+        <button id="loginBtn" class="btn btn-primary w-100 mb-2">התחבר</button>
+        <div class="text-center">
+          <button id="goToRegisterBtn" class="btn btn-link text-decoration-none small">אין לך חשבון? הירשם כאן</button>
         </div>
-        <div id="studentMessage" class="mt-3"></div>
       </div>
     </div>
 
-    <div id="examExecutionArea"></div>
+    <div id="register-view" class="card mx-auto d-none shadow-sm" style="max-width: 400px;">
+      <div class="card-body">
+        <h3 class="card-title text-center mb-4 fw-bold">הרשמה חדשה</h3>
+        <input type="text" id="regUsername" class="form-control mb-3" placeholder="שם משתמש">
+        <input type="password" id="regPassword" class="form-control mb-3" placeholder="סיסמה">
+        <select id="regRole" class="form-select mb-3">
+          <option value="student">סטודנט</option>
+          <option value="teacher">מרצה</option>
+        </select>
+        <button id="registerBtn" class="btn btn-success w-100 mb-2">הירשם</button>
+        <div class="text-center">
+          <button id="goToLoginBtn" class="btn btn-link text-decoration-none small">חזור למסך התחברות</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="teacher-view" class="d-none">
+      <div class="row">
+        <div class="col-md-5">
+          <div class="card mb-4 shadow-sm">
+            <div class="card-header bg-primary text-white fw-bold">יצירת מבחן חדש</div>
+            <div class="card-body">
+              <div class="mb-3">
+                <label class="form-label font-monospace">Exam Title</label>
+                <input id="examTitle" type="text" class="form-control" placeholder="Example: JavaScript Basics">
+              </div>
+              <hr>
+              <h5 class="fw-bold">Add Question</h5>
+              <div class="mb-3">
+                <label class="form-label">Question Text</label>
+                <input id="questionText" type="text" class="form-control" placeholder="Example: What is const?">
+              </div>
+              <div class="mb-3"><label class="form-label">Answer 1</label><input id="answer1" type="text" class="form-control"></div>
+              <div class="mb-3"><label class="form-label">Answer 2</label><input id="answer2" type="text" class="form-control"></div>
+              <div class="mb-3"><label class="form-label">Answer 3</label><input id="answer3" type="text" class="form-control"></div>
+              <div class="mb-3"><label class="form-label">Answer 4</label><input id="answer4" type="text" class="form-control"></div>
+              <div class="mb-3">
+                <label class="form-label">Correct Answer Number</label>
+                <input id="correctAnswer" type="number" class="form-control" min="1" max="4" placeholder="1-4">
+              </div>
+              <button id="addQuestionBtn" class="btn btn-success w-100 mb-2">Add Question</button>
+              <button id="saveExamBtn" class="btn btn-primary w-100">Save Exam</button>
+              <div id="builderMessage" class="mt-3"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-7">
+          <div class="card mb-4 shadow-sm">
+            <div class="card-header bg-dark text-white fw-bold">Saved Exams</div>
+            <div class="card-body"><div id="examList"></div></div>
+          </div>
+          <div class="card shadow-sm">
+            <div class="card-header bg-warning fw-bold">Run Exam</div>
+            <div class="card-body">
+              <div id="examRunner">
+                <p class="text-muted">Choose an exam to run.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="student-view" class="d-none">
+      <div class="row">
+        <div class="col-md-8">
+          <div class="card mb-4 shadow-sm">
+            <div class="card-header bg-secondary text-white fw-bold">מבחנים זמינים</div>
+            <div class="card-body"><div id="available-exams-list"></div></div>
+          </div>
+          <div id="examExecutionArea"></div>
+        </div>
+        <div class="col-md-4">
+          <div class="card mb-4 shadow-sm">
+            <div class="card-header bg-info text-white fw-bold">היסטוריית הציונים שלי</div>
+            <div class="card-body" id="historyArea"></div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
-  </div>
+  <script type="module">
+    import { AuthService } from "./js/Services/AuthService.js";
+    import { ExamService } from "./js/Services/ExamService.js";
+    import { ExamUI } from "./js/ui/ExamUI.js";
 
-  <!-- Main JavaScript file -->
-  <script type="module" src="js/app.js"></script>
+    const authService = new AuthService();
+    const examService = new ExamService();
+    const examUI = new ExamUI(examService);
+
+    // ניהול ניווט עצמאי בין מסכים
+    function showView(viewId) {
+      document.getElementById("login-view").classList.add("d-none");
+      document.getElementById("register-view").classList.add("d-none");
+      document.getElementById("teacher-view").classList.add("d-none");
+      document.getElementById("student-view").classList.add("d-none");
+
+      const target = document.getElementById(viewId);
+      if (target) target.classList.remove("d-none");
+
+      const user = authService.getCurrentUser();
+      const mainNav = document.getElementById("main-nav");
+      if (user) {
+        mainNav.classList.remove("d-none");
+        document.getElementById("welcomeMessage").textContent = `שלום, ${user.username} (${user.role === 'teacher' ? 'מרצה' : 'סטודנט'})`;
+      } else {
+        mainNav.classList.add("d-none");
+      }
+    }
+
+    // קישור כפתורי ניווט בסיסיים
+    document.getElementById("goToRegisterBtn").addEventListener("click", () => showView("register-view"));
+    document.getElementById("goToLoginBtn").addEventListener("click", () => showView("login-view"));
+    document.getElementById("logoutBtn").addEventListener("click", () => {
+      authService.logout();
+      showView("login-view");
+    });
+
+    // לוגיקת טופס הרשמה
+    document.getElementById("registerBtn").addEventListener("click", () => {
+      const u = document.getElementById("regUsername").value.trim();
+      const p = document.getElementById("regPassword").value;
+      const r = document.getElementById("regRole").value;
+      if (!u || !p) return alert("נא למלא את כל השדות");
+
+      const res = authService.register(u, p, r);
+      alert(res.message);
+      if (res.success) showView("login-view");
+    });
+
+    // לוגיקת טופס התחברות
+    document.getElementById("loginBtn").addEventListener("click", () => {
+      const u = document.getElementById("loginUsername").value.trim();
+      const p = document.getElementById("loginPassword").value;
+      const res = authService.login(u, p);
+
+      if (res.success) {
+        if (res.user.role === "teacher") {
+          showView("teacher-view");
+          examUI.examListElement = document.getElementById("examList");
+          examUI.examRunnerElement = document.getElementById("examRunner");
+          examUI.renderExamList();
+        } else {
+          showView("student-view");
+          renderStudentDashboard();
+        }
+      } else {
+        alert(res.message);
+      }
+    });
+
+    // אזור הסטודנט הדינמי
+    function renderStudentDashboard() {
+      const user = authService.getCurrentUser();
+      const users = authService.getAllUsers();
+      const fullUser = users.find(u => u.username === user.username);
+      
+      const historyArea = document.getElementById("historyArea");
+      if (!fullUser || !fullUser.history || fullUser.history.length === 0) {
+        historyArea.innerHTML = `<p class="text-muted small text-center">אין היסטוריית מבחנים.</p>`;
+      } else {
+        historyArea.innerHTML = "";
+        fullUser.history.forEach(h => {
+          historyArea.innerHTML += `<div class="border-bottom py-2 small d-flex justify-content-between">
+            <span><strong>${h.examTitle}</strong></span><span>ציון: ${h.score}/${h.total} (${h.percent}%)</span>
+          </div>`;
+        });
+      }
+
+      const exams = examService.getAllExams();
+      const availableList = document.getElementById("available-exams-list");
+      availableList.innerHTML = "";
+      if (exams.length === 0) {
+        availableList.innerHTML = `<p class="text-muted small">אין מבחנים זמינים כרגע.</p>`;
+        return;
+      }
+      exams.forEach(exam => {
+        availableList.innerHTML += `<div class="card mb-2 p-3 d-flex flex-row justify-content-between align-items-center bg-white shadow-sm">
+          <h6 class="mb-0 fw-bold">${exam.title}</h6>
+          <button class="btn btn-sm btn-success start-exam-btn" data-id="${exam.id}">התחל מבחן</button>
+        </div>`;
+      });
+    }
+
+    // הרצת מבחן לסטודנט
+    document.getElementById("available-exams-list").addEventListener("click", (e) => {
+      if (e.target.classList.contains("start-exam-btn")) {
+        const id = e.target.dataset.id;
+        const exam = examService.getExamById(id);
+        const execArea = document.getElementById("examExecutionArea");
+
+        execArea.innerHTML = `<div class="card p-4 shadow-sm bg-white"><h4>${exam.title}</h4><hr>`;
+        exam.questions.forEach((q, idx) => {
+          execArea.innerHTML += `<div class="mb-3 p-3 border rounded bg-light">
+            <h6><strong>שאלה ${idx + 1}:</strong> ${q.text}</h6>
+            ${q.answers.map((ans, aIdx) => `<label class="d-block my-1 small"><input type="radio" name="q-${idx}" value="${aIdx}"> ${ans}</label>`).join("")}
+          </div>`;
+        });
+        execArea.innerHTML += `<button id="submitExamBtn" class="btn btn-danger w-100 mt-2">סיום ושליחה</button></div>`;
+
+        document.getElementById("submitExamBtn").addEventListener("click", () => {
+          let score = 0;
+          exam.questions.forEach((q, idx) => {
+            const checked = document.querySelector(`input[name="q-${idx}"]:checked`);
+            if (checked && Number(checked.value) === q.correctAnswerIndex) score++;
+          });
+          const pct = Math.round((score / exam.questions.length) * 100);
+
+          const user = authService.getCurrentUser();
+          const users = authService.getAllUsers();
+          const uIdx = users.findIndex(u => u.username === user.username);
+          if (uIdx !== -1) {
+            if (!users[uIdx].history) users[uIdx].history = [];
+            users[uIdx].history.push({ examTitle: exam.title, score, total: exam.questions.length, percent: pct });
+            localStorage.setItem(authService.usersKey, JSON.stringify(users));
+          }
+
+          alert(`המבחן הוגש! הציון שלך: ${pct}%`);
+          execArea.innerHTML = "";
+          renderStudentDashboard();
+        });
+      }
+    });
+
+    // חיבור כפתורי המרצה המקוריים
+    document.getElementById("addQuestionBtn").addEventListener("click", () => examUI.addQuestionToCurrentExam());
+    document.getElementById("saveExamBtn").addEventListener("click", () => examUI.saveCurrentExam());
+
+    // בדיקת סשן בטעינה ראשונית
+    const initUser = authService.getCurrentUser();
+    if (initUser) {
+      if (initUser.role === "teacher") {
+        showView("teacher-view");
+        examUI.examListElement = document.getElementById("examList");
+        examUI.examRunnerElement = document.getElementById("examRunner");
+        examUI.renderExamList();
+      } else {
+        showView("student-view");
+        renderStudentDashboard();
+      }
+    } else {
+      showView("login-view");
+    }
+  </script>
+  
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </body>
-
 </html>
