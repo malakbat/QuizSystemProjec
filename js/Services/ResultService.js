@@ -1,71 +1,51 @@
-import { Result } from "../models/Result.js";
+// js/services/ResultService.js
 
+// Handles saving and retrieving exam results
 export class ResultService {
+  // Initializes the storage key for exam results
+  constructor() {
+    this.resultsKey = "exam_results";
+  }
 
-    constructor() {
+  // Retrieves all valid exam results from LocalStorage
+  getResults() {
+    const results = JSON.parse(localStorage.getItem("exam_results") || "[]");
 
-        this.storageKey = "results";
+    // Retrieve all existing exams
+    const allExams = JSON.parse(localStorage.getItem("exams") || "[]");
 
-    }
+    // Return only results that belong to existing exams
+    return results.filter(result => {
+      return allExams.some(exam => exam.title === result.examTitle);
+    });
+  }
 
-    getAllResults() {
+  // Saves a new result for a specific student
+  saveResult(studentUsername, examTitle, score, totalQuestions) {
+    const results = this.getResults();
 
-        const data = localStorage.getItem(this.storageKey);
+    // Create the result object
+    const resultObj = {
+      studentUsername: studentUsername,
+      examTitle: examTitle,
+      score: score,
+      total: totalQuestions,
+      // Calculate the percentage score
+      percent: Math.round((score / totalQuestions) * 100),
+      // Store the exact date and time
+      date: new Date().toLocaleString()
+    };
 
-        if (!data) {
+    // Add the new result and save it
+    results.push(resultObj);
+    localStorage.setItem(this.resultsKey, JSON.stringify(results));
+  }
 
-            return [];
+  // Retrieves all results for a specific student
+  getResultsByStudent(username) {
+    const results = this.getResults();
 
-        }
-
-        const plainResults = JSON.parse(data);
-
-        return plainResults.map(result => {
-
-            const newResult = new Result(
-
-                result.studentId,
-
-                result.examId,
-
-                result.score,
-
-                result.totalQuestions
-
-            );
-
-            newResult.id = result.id;
-            newResult.percent = result.percent;
-            newResult.date = result.date;
-
-            return newResult;
-
-        });
-
-    }
-
-    saveResult(result) {
-
-        const results = this.getAllResults();
-
-        results.push(result);
-
-        localStorage.setItem(
-
-            this.storageKey,
-
-            JSON.stringify(results)
-
-        );
-
-    }
-
-    getStudentResults(studentId) {
-
-        return this.getAllResults()
-
-            .filter(result => result.studentId === studentId);
-
-    }
-
+    // Filter results by the student's username
+    return results.filter(r => r.studentUsername === username);
+  }
 }

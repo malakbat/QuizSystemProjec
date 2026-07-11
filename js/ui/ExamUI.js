@@ -1,18 +1,15 @@
-import { Result } from "../models/Result.js";
-import { ResultService } from "../services/ResultService.js";
-import { AuthService } from "../services/AuthService.js";
-
-
 export class ExamUI {
   constructor(examService) {
-    //get Services for CRUD Opertions on exam
+    // Store the exam service for CRUD operations
     this.examService = examService;
-    // get references to ui elements
+
+    // Get references to the main UI elements
     this.examListElement = document.getElementById("examList");
     this.examRunnerElement = document.getElementById("examRunner");
     this.builderMessageElement = document.getElementById("builderMessage");
   }
 
+  // Displays a status message in the exam builder
   showBuilderMessage(message, type = "success") {
     this.builderMessageElement.innerHTML = `
       <div class="alert alert-${type}">
@@ -21,16 +18,19 @@ export class ExamUI {
     `;
   }
 
+  // Clears the builder message area
   clearBuilderMessage() {
     this.builderMessageElement.innerHTML = "";
   }
 
-  //render exam list desplay in the ui
+  // Renders the list of saved exams
   renderExamList() {
     const exams = this.examService.getAllExams();
 
+    // Clear the current exam list
     this.examListElement.innerHTML = "";
 
+    // Display a message if no exams exist
     if (exams.length === 0) {
       this.examListElement.innerHTML = `
         <p class="text-muted">No exams saved yet.</p>
@@ -38,38 +38,13 @@ export class ExamUI {
       return;
     }
 
-    //for each exam object create div and add it to html
+    // Create a card for each exam
     exams.forEach(exam => {
       const div = document.createElement("div");
       div.className = "exam-card";
 
-      div.innerHTML = `
-        <h5>${exam.title}</h5>
+      div.innerHTML = `<h5>${exam.title} (קוד מבחן: ${exam.searchCode || 'אין קוד'})</h5>
 
-        <p>
-
-        <b>Category:</b>
-
-        ${exam.category}
-
-        </p>
-
-        <p>
-
-        <b>Duration:</b>
-
-        ${exam.duration} minutes
-
-        </p>
-
-        <p>
-
-        <b>Code:</b>
-
-        ${exam.examCode}
-
-        </p>
-//****************************
         <p class="small-muted">
           Questions: ${exam.getQuestionCount()}
         </p>
@@ -95,7 +70,9 @@ export class ExamUI {
     });
   }
 
+  // Displays the selected exam for the user
   renderExamRunner(exam) {
+    // Show an error if the exam does not exist
     if (!exam) {
       this.examRunnerElement.innerHTML = `
         <div class="alert alert-danger">
@@ -105,6 +82,7 @@ export class ExamUI {
       return;
     }
 
+    // Show a warning if the exam has no questions
     if (exam.questions.length === 0) {
       this.examRunnerElement.innerHTML = `
         <div class="alert alert-warning">
@@ -114,29 +92,15 @@ export class ExamUI {
       return;
     }
 
+    // Display the exam title and instructions
     this.examRunnerElement.innerHTML = `
       <h4>${exam.title}</h4>
-      <p>
-      ${exam.description}
-      </p>
-      <p>
-      <b>Category:</b>
-      ${exam.category}
-      </p>
-      <p>
-      <b>Duration:</b>
-      ${exam.duration} Minutes
-      </p>
-      <p>
-      <b>Exam Code:</b>
-      ${exam.examCode}
-      </p>
-      //**************
       <p class="text-muted">
         Answer all questions and submit the exam.
       </p>
     `;
 
+    // Render every question and its answer options
     exam.questions.forEach((question, questionIndex) => {
       const questionDiv = document.createElement("div");
       questionDiv.className = "question-box";
@@ -158,10 +122,12 @@ export class ExamUI {
       this.examRunnerElement.appendChild(questionDiv);
     });
 
+    // Create the submit button
     const submitButton = document.createElement("button");
     submitButton.className = "btn btn-primary";
     submitButton.textContent = "Submit Exam";
 
+    // Check the exam when the button is clicked
     submitButton.addEventListener("click", () => {
       this.checkExam(exam);
     });
@@ -169,30 +135,30 @@ export class ExamUI {
     this.examRunnerElement.appendChild(submitButton);
   }
 
+  // Calculates the student's score
   checkExam(exam) {
     let score = 0;
-    const authService = new AuthService();
 
-    const currentUser = authService.getCurrentUser();
-
-    const resultService = new ResultService();
-
+    // Check each answered question
     exam.questions.forEach((question, questionIndex) => {
       const selectedAnswer = document.querySelector(
         `input[name="question-${questionIndex}"]:checked`
       );
 
+      // Skip unanswered questions
       if (!selectedAnswer) {
         return;
       }
 
       const userAnswerIndex = Number(selectedAnswer.value);
 
+      // Increase the score if the answer is correct
       if (question.isCorrect(userAnswerIndex)) {
         score++;
       }
     });
 
+    // Display the final exam result
     const resultDiv = document.createElement("div");
     resultDiv.className = "alert alert-info mt-3";
 
@@ -203,22 +169,5 @@ export class ExamUI {
     `;
 
     this.examRunnerElement.appendChild(resultDiv);
-    if (currentUser) {
-
-      const result = new Result(
-
-        currentUser.id,
-
-        exam.id,
-
-        score,
-
-        exam.questions.length
-
-      );
-
-      resultService.saveResult(result);
-
-    }
   }
 }
